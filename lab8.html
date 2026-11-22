@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота № 8</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+        .back-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: #212529;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .game-container {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            background: white;
+            padding: 40px 60px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .player-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        h2 {
+            margin: 0;
+            font-size: 24px;
+            text-align: center;
+            min-width: 150px;
+            word-break: break-word;
+        }
+        .score-box {
+            background-color: #0ea5e9;
+            color: white;
+            font-weight: bold;
+            font-size: 28px;
+            padding: 10px 0;
+            width: 100%;
+            text-align: center;
+            border-radius: 6px;
+        }
+        .number-circle {
+            background-color: #fde047;
+            color: #111827;
+            font-weight: bold;
+            font-size: 40px;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            border: 4px solid #111827;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 70px;
+        }
+        button {
+            background-color: #22c55e;
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        button:hover { background-color: #16a34a; }
+        button:active { transform: scale(0.95); }
+        @media (max-width: 768px) {
+            .game-container {
+                flex-direction: column;
+                gap: 20px;
+                padding: 30px;
+            }
+            .controls {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">← На головну</a>
+
+    <div class="game-container">
+        <div class="player-section">
+            <h2 id="userNameDisplay">User</h2>
+            <div class="score-box" id="userScoreDisplay">0</div>
+            <div class="number-circle" id="userNumberDisplay">0</div>
+        </div>
+
+        <div class="controls">
+            <button id="generateBtn">Generate</button>
+        </div>
+
+        <div class="player-section">
+            <h2>Computer</h2>
+            <div class="score-box" id="compScoreDisplay">0</div>
+            <div class="number-circle" id="compNumberDisplay">0</div>
+        </div>
+    </div>
+
+    <script>
+        let userScore = 0;
+        let compScore = 0;
+
+        const userNameDisplay = document.getElementById('userNameDisplay');
+        const userScoreDisplay = document.getElementById('userScoreDisplay');
+        const compScoreDisplay = document.getElementById('compScoreDisplay');
+        const userNumberDisplay = document.getElementById('userNumberDisplay');
+        const compNumberDisplay = document.getElementById('compNumberDisplay');
+        const generateBtn = document.getElementById('generateBtn');
+
+        window.onload = function() {
+            let userName = prompt("Введіть ваше ім'я:", "User");
+            if (userName === null || userName.trim() === "") {
+                userName = "User";
+            }
+            userNameDisplay.textContent = userName;
+        };
+
+        generateBtn.addEventListener('click', function() {
+            const userNum = Math.floor(Math.random() * 10) + 1;
+            const compNum = Math.floor(Math.random() * 10) + 1;
+
+            userNumberDisplay.textContent = userNum;
+            compNumberDisplay.textContent = compNum;
+
+            if (userNum > compNum) {
+                userScore++;
+            } else if (compNum > userNum) {
+                compScore++;
+            }
+
+            userScoreDisplay.textContent = userScore;
+            compScoreDisplay.textContent = compScore;
+
+            setTimeout(() => {
+                if (userScore === 3) {
+                    alert(`${userNameDisplay.textContent} переміг у грі!`);
+                    resetGame();
+                } else if (compScore === 3) {
+                    alert("Комп'ютер переміг у грі!");
+                    resetGame();
+                }
+            }, 100);
+        });
+
+        function resetGame() {
+            userScore = 0;
+            compScore = 0;
+            userScoreDisplay.textContent = userScore;
+            compScoreDisplay.textContent = compScore;
+            userNumberDisplay.textContent = "0";
+            compNumberDisplay.textContent = "0";
+        }
+    </script>
+</body>
+</html>
